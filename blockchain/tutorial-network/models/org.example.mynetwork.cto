@@ -1,0 +1,62 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+namespace org.example.mynetwork
+
+import org.example.mynetwork.base.Person
+
+asset ElectronicHealthRecord identified by electronicHealthRecordID {
+  o String electronicHealthRecordID
+  o String description 
+  o DateTime createdDate
+  --> Patient owner
+  --> Doctor doctor
+  --> HealthCareOrganization organizationID
+}
+
+participant Patient identified by patientID extends Person {
+  	o String patientID
+}
+
+participant Doctor identified by doctorID extends Person {
+  	o String doctorID
+    o DateTime startDate optional
+    o String employmentStatus optional
+    o String department optional
+    --> HealthCareOrganization organizationID optional
+}
+
+participant HealthCareOrganization identified by organizationID {
+  	o String organizationID
+    o String name optional
+    o String description optional
+}
+
+transaction ProvideHealthCareServiceTransaction {
+	o String electronicHealthRecordID
+    o String description 
+    o DateTime createdDate
+    --> Patient owner
+    --> Doctor doctor
+    --> HealthCareOrganization organizationID
+}
+
+event ElectronicHealthRecordCreatedEvent {
+	o String electronicHealthRecordID
+    o String description 
+    o DateTime createdDate
+    --> Patient owner
+    --> Doctor doctor
+    --> HealthCareOrganization organizationID
+}
